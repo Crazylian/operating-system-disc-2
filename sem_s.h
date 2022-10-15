@@ -7,7 +7,6 @@ typedef struct
 {
     int values;
     int wakeup;
-    int wait;
     pthread_mutex_t mutex;
     pthread_cond_t cond;
 }sem_s;
@@ -43,7 +42,7 @@ void Ssignal(sem_s *sem,int d)
 {
     pthread_mutex_lock(&(sem->mutex));
     sem->values += d;
-    if (sem->wait>0)
+    if (sem->wakeup>0)
     {
         pthread_cond_broadcast(&(sem->cond));
         sem->wakeup=0;
